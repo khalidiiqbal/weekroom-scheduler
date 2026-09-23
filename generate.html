@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Week | Weekroom</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="generator-body">
+    <nav class="navbar">
+        <a href="index.html" class="logo"><div class="logo-icon" aria-hidden="true">W</div><span>Weekroom</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="planner.html">Planner</a>
+            <a href="generate.html" aria-current="page">Generate</a>
+        </div>
+        <a class="nav-button" href="planner.html">View Planner</a>
+    </nav>
+
+    <main class="generator-page">
+        <section class="generator-hero">
+            <div>
+                <p class="small-label">YOUR WEEK, WITH BREATHING ROOM</p>
+                <h1>You have more time than you think.</h1>
+                <p>Tell Weekroom what matters—from focused work to lunch and sleep. It fits your goals around fixed commitments, then lets you review the plan before anything changes.</p>
+            </div>
+            <div class="generator-steps" aria-label="Generation process">
+                <span><strong>1</strong> Add goals</span><span><strong>2</strong> Set boundaries</span><span><strong>3</strong> Preview and apply</span>
+            </div>
+        </section>
+
+        <p id="generator-message" class="feedback" role="status" aria-live="polite"></p>
+        <noscript>This generator needs JavaScript enabled.</noscript>
+
+        <section class="generator-layout">
+            <div class="generator-inputs">
+                <section class="generator-card quick-goals-card">
+                    <p class="small-label">QUICK ADD</p>
+                    <h2>Describe your goals</h2>
+                    <p>Write one goal per line. You can fine-tune each one after adding it.</p>
+                    <div class="form-group">
+                        <label for="quick-goals">Flexible goals</label>
+                        <textarea id="quick-goals" rows="5" placeholder="4 hours of job searching&#10;4 1-hour gym sessions&#10;2 hours of playing guitar"></textarea>
+                    </div>
+                    <button type="button" class="primary-button" id="parse-goals">Add described goals</button>
+                    <p class="input-help">Understands total time, repeated sessions, “8 hours of sleep each night”, and “leave lunch time during my time on campus”. Unclear lines stay out and are explained.</p>
+                </section>
+
+                <section class="generator-card">
+                    <div class="goal-form-heading">
+                        <div><p class="small-label">GOAL DETAILS</p><h2 id="goal-form-title">Add a flexible goal</h2></div>
+                        <button type="button" id="cancel-goal-edit" class="text-button" hidden>Cancel edit</button>
+                    </div>
+                    <form id="goal-form">
+                        <div class="form-row">
+                            <div class="form-group"><label for="goal-name">Goal name</label><input id="goal-name" required placeholder="e.g. Job searching"></div>
+                            <div class="form-group"><label for="goal-type">Type</label><select id="goal-type"><option value="study">Study</option><option value="gym">Gym</option><option value="work">Work / Career</option><option value="hobby">Hobby</option><option value="other">Other</option></select></div>
+                        </div>
+                        <div class="form-group"><label for="goal-mode">How should it be divided?</label><select id="goal-mode"><option value="total">Reach a total amount of time</option><option value="sessions">Schedule an exact number of sessions</option></select></div>
+                        <div class="goal-amount-grid">
+                            <div class="form-group" id="total-hours-group"><label for="goal-total-hours">Total hours this week</label><input id="goal-total-hours" type="number" min="0.25" max="40" step="0.25" value="4"></div>
+                            <div class="form-group" id="session-count-group" hidden><label for="goal-session-count">Sessions this week</label><input id="goal-session-count" type="number" min="1" max="21" step="1" value="4"></div>
+                            <div class="form-group"><label for="goal-session-minutes">Minutes per session</label><select id="goal-session-minutes"><option>15</option><option>30</option><option>45</option><option selected>60</option><option>75</option><option>90</option><option>120</option><option>180</option><option>240</option></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label for="goal-priority">Priority</label><select id="goal-priority"><option value="high">High</option><option value="normal" selected>Normal</option><option value="low">Low</option></select></div>
+                            <div class="form-group"><label for="goal-preferred-time">Preferred time</label><select id="goal-preferred-time"><option value="any">Any time</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option></select></div>
+                        </div>
+                        <fieldset class="day-picker">
+                            <legend>Available days</legend>
+                            <div class="day-options">
+                                <label><input type="checkbox" name="goal-day" value="monday" checked> Mon</label>
+                                <label><input type="checkbox" name="goal-day" value="tuesday" checked> Tue</label>
+                                <label><input type="checkbox" name="goal-day" value="wednesday" checked> Wed</label>
+                                <label><input type="checkbox" name="goal-day" value="thursday" checked> Thu</label>
+                                <label><input type="checkbox" name="goal-day" value="friday" checked> Fri</label>
+                                <label><input type="checkbox" name="goal-day" value="saturday"> Sat</label>
+                                <label><input type="checkbox" name="goal-day" value="sunday"> Sun</label>
+                            </div>
+                        </fieldset>
+                        <div class="form-row">
+                            <div class="form-group"><label for="goal-deadline">Finish by</label><select id="goal-deadline"><option value="">End of week</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option><option value="saturday">Saturday</option><option value="sunday">Sunday</option></select></div>
+                            <div class="form-group"><label for="goal-notes">Notes</label><input id="goal-notes" maxlength="180" placeholder="Optional context"></div>
+                        </div>
+                        <button type="submit" class="primary-button" id="save-goal">Add goal</button>
+                    </form>
+                </section>
+            </div>
+
+            <div class="generator-workspace">
+                <section class="generator-card">
+                    <div class="section-action-heading">
+                        <div><p class="small-label">FLEXIBLE GOALS</p><h2>Your goals</h2></div>
+                        <span id="goal-count" class="count-pill">0 goals</span>
+                    </div>
+                    <div id="goal-list" class="goal-list"></div>
+                </section>
+
+                <section class="generator-card settings-card">
+                    <div><p class="small-label">BOUNDARIES</p><h2>Scheduling settings</h2></div>
+                    <p id="fixed-summary" class="input-help"></p>
+                    <div class="settings-grid">
+                        <div class="form-group"><label for="schedule-start">Earliest start</label><input id="schedule-start" type="time" value="08:00"></div>
+                        <div class="form-group"><label for="schedule-end">Latest finish</label><input id="schedule-end" type="time" value="22:00"></div>
+                        <div class="form-group"><label for="schedule-break">Break between flexible sessions</label><select id="schedule-break"><option value="0">No required break</option><option value="15" selected>15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select></div>
+                    </div>
+                    <div class="setting-checks">
+                        <label><input type="checkbox" id="balance-week" checked> Balance flexible work across available days</label>
+                        <label><input type="checkbox" id="compact-days" checked> Prefer times near existing commitments</label>
+                    </div>
+                    <div class="generate-actions">
+                        <button type="button" class="primary-button" id="preview-week">Generate preview</button>
+                        <button type="button" class="secondary-button danger-button" id="clear-generated">Remove generated sessions</button>
+                    </div>
+                </section>
+
+                <section class="generator-card preview-card">
+                    <div class="section-action-heading">
+                        <div><p class="small-label">SCHEDULE PREVIEW</p><h2>Your generated week</h2></div>
+                        <button type="button" class="primary-button" id="apply-week" disabled>Apply to planner</button>
+                    </div>
+                    <div id="generation-summary" class="generation-summary"></div>
+                    <div id="generated-preview" class="generated-preview"></div>
+                    <p class="input-help">Applying replaces earlier auto-generated sessions. Fixed commitments and manually added tasks stay unchanged.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+    <script src="scheduler.js"></script>
+    <script src="calendar-card.js"></script>
+    <script src="personal.js"></script>
+    <script src="generator.js"></script>
+</body>
+</html>

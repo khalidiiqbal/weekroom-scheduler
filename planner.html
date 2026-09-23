@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Planner | Weekroom</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="planner-body">
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            <div class="logo-icon" aria-hidden="true">W</div>
+            <span>Weekroom</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="planner.html" aria-current="page">Planner</a>
+        </div>
+
+        <a class="nav-button" href="generate.html">Generate Week</a>
+
+    </nav>
+
+
+    <main class="planner-page">
+
+        <section class="planner-heading">
+
+            <div>
+                <p class="small-label">YOUR WEEK AT A GLANCE</p>
+
+                <h1>Make room for your whole life.</h1>
+
+                <p>
+                    Start with what cannot move. Weekroom will build flexible
+                    goals, meals, rest, and personal time around it.
+                </p>
+            </div>
+
+        </section>
+
+
+        <p id="generation-message" class="feedback" role="status"></p>
+        <p id="storage-message" class="storage-message" role="status">Saved in this browser. Your schedule stays on this device.</p>
+        <noscript>This planner needs JavaScript enabled to add and save tasks.</noscript>
+        <details class="pdf-import" id="pdf-import">
+            <summary>Import a timetable <span>PDF or iCalendar (.ics)</span></summary>
+            <div class="import-content">
+                <p>Choose a PDF or .ics calendar. The file stays on this device. Check every detected class against the source before importing.</p>
+                <p class="calendar-hint">PDF import supports text-based lists, weekday columns, and ACORN timetable grids. Calendar import creates a snapshot of meetings that occur in the selected week.</p>
+                <div class="import-file-row form-group">
+                    <label for="timetable-file">Timetable file (PDF or .ics, up to 20 MB)</label>
+                    <input type="file" id="timetable-file" accept=".pdf,.ics,application/pdf,text/calendar" aria-describedby="import-status">
+                </div>
+                <div class="calendar-import-options">
+                    <div class="form-group">
+                        <label for="calendar-week">Calendar week</label>
+                        <input type="date" id="calendar-week">
+                    </div>
+                    <div class="form-group">
+                        <label for="calendar-timezone">Calendar time zone</label>
+                        <input type="text" id="calendar-timezone" placeholder="e.g. America/Toronto">
+                    </div>
+                </div>
+                <p id="import-status" class="feedback" role="status" aria-live="polite"></p>
+                <div id="import-warnings" class="import-warnings" hidden></div>
+                <div id="import-review" hidden>
+                    <div class="import-review-heading">
+                        <h2>Review detected commitments</h2>
+                        <button type="button" id="discard-import" class="secondary-button">Discard preview</button>
+                    </div>
+                    <p class="calendar-hint">Edit missing or incorrect fields. Uncheck anything you do not want to import. All selected rows must be valid and free of conflicts.</p>
+                    <div id="import-rows" class="import-rows"></div>
+                    <details class="import-text-help" id="import-text-help">
+                        <summary>Missing a class? Review or correct extracted text</summary>
+                        <div class="form-group">
+                            <label for="import-text">Use one meeting per line, for example: Monday | ECE231 Lecture | 10:00–12:00 | Room BA123</label>
+                            <textarea id="import-text" rows="8" maxlength="80000" spellcheck="false"></textarea>
+                        </div>
+                        <button type="button" class="secondary-button" id="reparse-import">Rebuild preview from this text</button>
+                        <p class="calendar-hint">Rebuilding replaces your current preview edits. It does not change your saved week.</p>
+                    </details>
+                    <div class="import-actions">
+                        <button type="button" class="secondary-button" id="add-import-row">Add missing commitment</button>
+                        <button type="button" class="primary-button" id="confirm-import" disabled>Add selected to week</button>
+                    </div>
+                    <p id="import-selection-status" class="calendar-hint" role="status"></p>
+                </div>
+            </div>
+        </details>
+        <section class="planner-layout">
+
+            <!-- LEFT SIDE -->
+
+            <aside class="task-panel">
+
+                <div class="panel-heading">
+
+                    <p class="small-label">
+                        NEW COMMITMENT
+                    </p>
+
+                    <h2>Add Task</h2>
+
+                </div>
+
+
+                <form id="task-form">
+                    <p id="form-message" class="feedback" role="status" aria-live="polite"></p>
+
+                    <div class="form-group">
+
+                        <label for="task-name">
+                            Task Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="task-name"
+                            placeholder="e.g. ECE Lecture"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="task-type">
+                            Type
+                        </label>
+
+                        <select id="task-type">
+
+                            <option value="class">
+                                Class
+                            </option>
+
+                            <option value="study">
+                                Study
+                            </option>
+
+                            <option value="commute">
+                                Commute
+                            </option>
+
+                            <option value="gym">
+                                Gym
+                            </option>
+
+                            <option value="work">
+                                Work
+                            </option>
+
+                            <option value="appointment">
+                                Appointment
+                            </option>
+
+                            <option value="hobby">
+                                Hobby
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="task-day">
+                            Day
+                        </label>
+
+                        <select id="task-day">
+
+                            <option value="monday">
+                                Monday
+                            </option>
+
+                            <option value="tuesday">
+                                Tuesday
+                            </option>
+
+                            <option value="wednesday">
+                                Wednesday
+                            </option>
+
+                            <option value="thursday">
+                                Thursday
+                            </option>
+
+                            <option value="friday">
+                                Friday
+                            </option>
+
+                            <option value="saturday">
+                                Saturday
+                            </option>
+
+                            <option value="sunday">
+                                Sunday
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="start-time">
+                                Start Time
+                            </label>
+
+                            <input
+                                type="time"
+                                id="start-time"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="end-time">
+                                End Time
+                            </label>
+
+                            <input
+                                type="time"
+                                id="end-time"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="task-location">
+                            Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="task-location"
+                            placeholder="Optional"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="task-details">
+                            Details
+                        </label>
+
+                        <textarea
+                            id="task-details"
+                            rows="3"
+                            placeholder="Optional notes"
+                        ></textarea>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="primary-button add-task-button"
+                    >
+                        Add to Schedule
+                    </button>
+
+                </form>
+
+            </aside>
+
+
+            <!-- RIGHT SIDE -->
+
+            <section class="calendar-panel">
+
+                <div class="calendar-header">
+
+                    <div>
+
+                        <p class="small-label">
+                            CURRENT SCHEDULE
+                        </p>
+
+                        <h2>Your Week</h2>
+
+                    </div>
+
+
+                    <div class="calendar-actions">
+
+                        <button
+                            id="clear-week-button"
+                            class="secondary-button"
+                        >
+                            Clear Week
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <p class="calendar-hint">Hover for details, or click to keep them open. Keyboard: Enter to expand, Escape to close.</p>
+                <div class="calendar-legend">
+
+                    <span>
+                        <span class="legend-dot class-dot"></span>
+                        Class
+                    </span>
+
+                    <span>
+                        <span class="legend-dot study-dot"></span>
+                        Study
+                    </span>
+
+                    <span>
+                        <span class="legend-dot commute-dot"></span>
+                        Commute
+                    </span>
+
+                    <span>
+                        <span class="legend-dot gym-dot"></span>
+                        Gym
+                    </span>
+
+                    <span><span class="legend-dot work-dot"></span>Work</span>
+                    <span><span class="legend-dot appointment-dot"></span>Appointment</span>
+                    <span><span class="legend-dot hobby-dot"></span>Hobby</span>
+                    <span><span class="legend-dot other-dot"></span>Other</span>
+                </div>
+
+
+                <div class="calendar-scroll" tabindex="0" role="region" aria-label="Weekly schedule. Scroll horizontally to see every day.">
+                <div class="week-calendar">
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>MON</span>
+                            <strong>Monday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="monday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>TUE</span>
+                            <strong>Tuesday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="tuesday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>WED</span>
+                            <strong>Wednesday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="wednesday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>THU</span>
+                            <strong>Thursday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="thursday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>FRI</span>
+                            <strong>Friday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="friday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>SAT</span>
+                            <strong>Saturday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="saturday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="calendar-day">
+
+                        <div class="calendar-day-header">
+                            <span>SUN</span>
+                            <strong>Sunday</strong>
+                        </div>
+
+                        <div
+                            class="calendar-day-content"
+                            id="sunday-tasks" tabindex="-1"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+                </div>
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <script src="calendar-card.js"></script>
+    <script src="planner.js"></script>
+    <script src="timetable-parser.js"></script>
+    <script src="ics-parser.js"></script>
+    <script src="pdf-import.js"></script>
+
+</body>
+
+</html>

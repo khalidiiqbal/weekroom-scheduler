@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Path Transit</title>
+    <title>Weekroom | Make room for your whole life</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,8 +11,8 @@
 
     <nav class="navbar">
         <div class="logo">
-            <div class="logo-icon">SP</div>
-            <span>Study Path Transit</span>
+            <div class="logo-icon" aria-hidden="true">W</div>
+            <span>Weekroom</span>
         </div>
 
         <div class="nav-links">
@@ -21,7 +21,7 @@
             <a href="#about">About</a>
         </div>
 
-        <button class="nav-button">Open Planner</button>
+        <a href = "planner.html" class="nav-button">Open Planner</a>
     </nav>
 
 
@@ -32,46 +32,27 @@
             <div class="hero-text">
 
                 <div class="badge">
-                    Built for busy students
+                    A calmer way to plan your week
                 </div>
 
                 <h1>
-                    Build a better week.
-                    <span>Automatically.</span>
+                    You have more time
+                    <span>than you think.</span>
                 </h1>
 
                 <p>
-                    Study Path Transit organizes your classes, commute,
-                    workouts, study sessions and personal time into one
-                    realistic weekly schedule.
+                    Weekroom fits classes, focused work, meals, sleep, and the
+                    rest of your life into one realistic plan—so your week feels
+                    possible before it even begins.
                 </p>
 
                 <div class="hero-buttons">
-                    <button class="primary-button">
-                        Generate My Week
-                    </button>
+                    <a class="primary-button" href="generate.html">Make room in my week</a>
 
-                    <button class="secondary-button">
-                        See How It Works
-                    </button>
+                    <a class="secondary-button" href="planner.html">Add Commitments</a>
                 </div>
 
-                <div class="hero-stats">
-                    <div>
-                        <strong>7</strong>
-                        <span>Days Planned</span>
-                    </div>
 
-                    <div>
-                        <strong>24/7</strong>
-                        <span>Schedule View</span>
-                    </div>
-
-                    <div>
-                        <strong>1</strong>
-                        <span>Smarter Week</span>
-                    </div>
-                </div>
 
             </div>
 
@@ -80,7 +61,7 @@
 
                 <div class="planner-header">
                     <div>
-                        <p class="small-label">YOUR WEEK</p>
+                        <p class="small-label">EXAMPLE DAY</p>
                         <h2>Monday</h2>
                     </div>
 
@@ -109,9 +90,9 @@
                     </div>
 
                     <div class="event">
-                        <p class="event-type">COMMUTE</p>
-                        <h3>Campus → Home</h3>
-                        <span>1 hr 10 min</span>
+                        <p class="event-type">PERSONAL</p>
+                        <h3>Lunch on campus</h3>
+                        <span>Protected time</span>
                     </div>
                 </div>
 
@@ -152,10 +133,10 @@
 
             <div class="section-heading">
                 <p class="small-label">SMART PLANNING</p>
-                <h2>Everything in your week, working together.</h2>
+                <h2>A plan that remembers you’re a person.</h2>
                 <p>
                     Add the things you have to do and the things you want
-                    to do. Study Path finds the time.
+                    to do. Build a conflict-free plan, one commitment at a time.
                 </p>
             </div>
 
@@ -186,8 +167,8 @@
                     <div class="feature-icon">03</div>
                     <h3>Study Tasks</h3>
                     <p>
-                        Prioritize assignments and study sessions based
-                        on deadlines, duration and available time.
+                        Describe the time you need, set priorities and deadlines,
+                        and let the generator place focused sessions for you.
                     </p>
                 </div>
 
@@ -216,28 +197,26 @@
                 </h2>
 
                 <p>
-                    Enter your recurring commitments, deadlines and goals.
-                    Study Path Transit will eventually generate a balanced
-                    plan automatically every Monday.
+                    Add your fixed commitments, then describe goals such as four
+                    hours of job searching or four one-hour gym sessions. Preview
+                    a balanced, conflict-free plan before applying it.
                 </p>
 
                 <ul>
-                    <li>Fixed and flexible tasks</li>
-                    <li>Priority-based scheduling</li>
-                    <li>Commute-aware planning</li>
-                    <li>Weekly schedule generation</li>
+                    <li>Works around classes, work and imported timetables</li>
+                    <li>Uses priorities, deadlines and preferred times</li>
+                    <li>Spreads repeated sessions across available days</li>
+                    <li>Preview, regenerate or remove automatic sessions safely</li>
                 </ul>
 
-                <button class="primary-button">
-                    Start Planning
-                </button>
+                <a class="primary-button" href="generate.html">Generate My Week</a>
             </div>
 
 
             <div class="week-card">
 
                 <div class="week-header">
-                    <h3>This Week</h3>
+                    <h3>Example Week</h3>
                     <span>Aug 17 – Aug 23</span>
                 </div>
 
@@ -306,13 +285,13 @@
 
     <footer id="about">
         <div>
-            <strong>Study Path Transit</strong>
-            <p>Plan school. Plan life. Make time for both.</p>
+            <strong>Weekroom</strong>
+            <p>You have more time than you think.</p>
         </div>
 
         <p>Built by Khalid</p>
     </footer>
 
-
+    <script src="index.js"></script>
 </body>
 </html>
